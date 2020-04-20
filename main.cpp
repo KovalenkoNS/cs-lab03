@@ -83,7 +83,7 @@ int main()
     double max;
     find_minmax(numbers,min,max);
     const auto bins = make_histogram(numbers, bin_count,min,max);
-    show_histogram_svg(bins);
+    show_histogram_text(bins);
 
     return 0;
 }

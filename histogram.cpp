@@ -50,8 +50,6 @@ void show_histogram_svg(const vector<size_t> bins)
     const size_t SCREEN_WIDTH = 80;
     const size_t MAX_ASTERISK = SCREEN_WIDTH - 4 - 1;
     svg_begin(IMAGE_WIDTH, IMAGE_HEIGHT);
-    // svg_text(TEXT_LEFT, TEXT_BASELINE, to_string(bins[0]));
-    //svg_rect(TEXT_WIDTH, 0, bins[0] * BLOCK_WIDTH, BIN_HEIGHT);
     double top = 0;
     string stroke="black";
     string fill="red";
