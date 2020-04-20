@@ -32,6 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="histogram.cpp" />
+		<Unit filename="histogram.h" />
+		<Unit filename="histogram_new.cpp" />
+		<Unit filename="histogram_new.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
