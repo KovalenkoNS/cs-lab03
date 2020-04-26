@@ -62,11 +62,6 @@ void show_histogram_text(vector<size_t>bins,size_t number_count)
             cout << '*';
         }
         cout<<' ';
-        for (size_t i=height;i<max_count+1;i++)
-            {
-            cout<<" ";
-            }
-        cout<<(double)bin/number_count*100<<"%";
         cout << '\n';
     }
 }
