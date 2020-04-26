@@ -27,7 +27,7 @@ void svg_text(double left, double baseline, string text,size_t bin)
 void show_histogram_svg(const vector<size_t> bins,size_t number_count)
 {
     const auto IMAGE_WIDTH = 600;
-    const auto IMAGE_HEIGHT = 400;
+    const auto IMAGE_HEIGHT = 300;
     const auto TEXT_LEFT = 20;
     const auto TEXT_BASELINE = 20;
     const auto TEXT_WIDTH = 50;
