@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 #include "histogram.h"
+#include "histogram_new.h"
 
 using namespace std;
-
 vector<double> input_numbers(size_t count)
 {
     vector<double> result(count);
@@ -13,7 +13,6 @@ vector<double> input_numbers(size_t count)
     }
     return result;
 }
-
 vector <size_t> make_histogram(vector <double> numbers,size_t bin_count,double min,double max)
 {
     vector<size_t> bins(bin_count);
@@ -28,8 +27,7 @@ vector <size_t> make_histogram(vector <double> numbers,size_t bin_count,double m
     }
     return(bins);
 }
-
-void show_histogram_text(vector<size_t>bins)
+void show_histogram_text(vector<size_t>bins,size_t number_count)
 {
     const size_t SCREEN_WIDTH = 80;
     const size_t MAX_ASTERISK = SCREEN_WIDTH - 4 - 1;
@@ -63,13 +61,17 @@ void show_histogram_text(vector<size_t>bins)
         {
             cout << '*';
         }
+        cout<<' ';
+        for (size_t i=height;i<max_count+1;i++)
+            {
+            cout<<" ";
+            }
+        cout<<(double)bin/number_count*100<<"%";
         cout << '\n';
     }
 }
-
 int main()
 {
-
     size_t number_count;
     cerr << "Enter number count: ";
     cin >> number_count;
@@ -78,12 +80,12 @@ int main()
     size_t bin_count;
     cerr << "Enter column count: ";
     cin >> bin_count;
-
     double min;
     double max;
     find_minmax(numbers,min,max);
+
     const auto bins = make_histogram(numbers, bin_count,min,max);
-    show_histogram_svg(bins);
+    show_histogram_svg(bins,number_count);
 
     return 0;
 }

@@ -1,5 +1,6 @@
-#include "histogram.h"
+#include "histogram_new.h"
 #include <iostream>
+#include <math.h>
 using namespace std;
 void svg_begin(double width, double height)
 {
@@ -22,10 +23,11 @@ void svg_text(double left, double baseline, string text,size_t bin)
 {
     cout << "<text x='" << left << "' y='"<<baseline<<"'>"<<bin<<"</text>";
 }
-void show_histogram_svg(const vector<size_t> bins)
+
+void show_histogram_svg(const vector<size_t> bins,size_t number_count)
 {
-    const auto IMAGE_WIDTH = 400;
-    const auto IMAGE_HEIGHT = 300;
+    const auto IMAGE_WIDTH = 600;
+    const auto IMAGE_HEIGHT = 400;
     const auto TEXT_LEFT = 20;
     const auto TEXT_BASELINE = 20;
     const auto TEXT_WIDTH = 50;
@@ -46,17 +48,19 @@ void show_histogram_svg(const vector<size_t> bins)
         }
     }
     const bool scaling_needed = max_count > MAX_ASTERISK;
+    double scaling_factor = 1;
     for (size_t bin : bins)
     {
         if (scaling_needed)
         {
-            const double scaling_factor = (double)MAX_ASTERISK / max_count;
+             scaling_factor = (double)MAX_ASTERISK / max_count;
             bin = (size_t)(bin * scaling_factor);
         }
+
         const double bin_width = BLOCK_WIDTH * bin;
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin),bin);
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT,stroke,fill);
         top += BIN_HEIGHT;
-    }
+        }
     svg_end();
 }
