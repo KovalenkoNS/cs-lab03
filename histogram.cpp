@@ -1,6 +1,5 @@
 #include "histogram.h"
 #include <iostream>
-void find_minmax();
 void find_minmax(vector<double> numbers, double& min, double& max)
 {
     if(numbers.size() !=0)
