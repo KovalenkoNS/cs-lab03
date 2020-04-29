@@ -15,10 +15,14 @@ void svg_end()
 {
     cout << "</svg>\n";
 }
+//svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT,stroke,fill);
+//svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin),bin);
+
 void svg_rect(double x, double y, double width, double height,string stroke,string fill)
 {
     cout << "<rect x='"<<x<<"' y='"<<y<<"' width='"<<width<<"' height='"<<height<<"' stroke='"<<stroke<<"' fill='"<<fill<<"' />";
 }
+
 void svg_text(double left, double baseline, string text,size_t bin)
 {
     cout << "<text x='" << left << "' y='"<<baseline<<"'>"<<bin<<"</text>";
@@ -26,11 +30,11 @@ void svg_text(double left, double baseline, string text,size_t bin)
 
 void show_histogram_svg(const vector<size_t> bins,size_t number_count)
 {
-    const auto IMAGE_WIDTH = 600;
+    const auto IMAGE_WIDTH = 810;
+    const auto OTSTUP = IMAGE_WIDTH - 40;
     const auto IMAGE_HEIGHT = 300;
-    const auto TEXT_LEFT = 20;
+    const auto TEXT_LEFT = 810 - 30;
     const auto TEXT_BASELINE = 20;
-    const auto TEXT_WIDTH = 50;
     const auto BIN_HEIGHT = 30;
     const auto BLOCK_WIDTH = 10;
     const size_t SCREEN_WIDTH = 80;
@@ -49,17 +53,19 @@ void show_histogram_svg(const vector<size_t> bins,size_t number_count)
     }
     const bool scaling_needed = max_count > MAX_ASTERISK;
     double scaling_factor = 1;
+
     for (size_t bin : bins)
     {
+        svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin),bin);
         if (scaling_needed)
         {
-             scaling_factor = (double)MAX_ASTERISK / max_count;
+            scaling_factor = (double)MAX_ASTERISK / max_count;
             bin = (size_t)(bin * scaling_factor);
         }
-
         const double bin_width = BLOCK_WIDTH * bin;
-        svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin),bin);
-        svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT,stroke,fill);
+        const double RECT_LEFT = OTSTUP - bin_width;
+        //svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin),bin);
+        svg_rect(RECT_LEFT, top, bin_width, BIN_HEIGHT,stroke,fill);
         top += BIN_HEIGHT;
         }
     svg_end();
