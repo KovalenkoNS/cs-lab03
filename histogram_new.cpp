@@ -2,6 +2,17 @@
 #include <iostream>
 #include <math.h>
 using namespace std;
+
+size_t bin_count (size_t MAX_A, size_t max_c, size_t bin)
+{
+    double param = 0;
+    double scaling_factor =1;
+    scaling_factor = (double)MAX_A / max_c;
+    param = (size_t)(bin * scaling_factor);
+    return param;
+}
+
+
 void svg_begin(double width, double height)
 {
     cout << "<?xml version='1.0' encoding='UTF-8'?>\n";
@@ -52,15 +63,15 @@ void show_histogram_svg(const vector<size_t> bins,size_t number_count)
         }
     }
     const bool scaling_needed = max_count > MAX_ASTERISK;
-    double scaling_factor = 1;
+    //double scaling_factor = 1;
 
     for (size_t bin : bins)
     {
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin),bin);
         if (scaling_needed)
         {
-            scaling_factor = (double)MAX_ASTERISK / max_count;
-            bin = (size_t)(bin * scaling_factor);
+            bin = bin_count(MAX_ASTERISK, max_count, bin);
+
         }
         const double bin_width = BLOCK_WIDTH * bin;
         const double RECT_LEFT = OTSTUP - bin_width;
