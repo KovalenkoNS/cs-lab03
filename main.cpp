@@ -92,6 +92,15 @@ void show_histogram_text(vector<size_t>bins)
     }
 }
 
+size_t write_data(void* items, size_t item_size, size_t item_count, void* ctx)
+{
+    const size_t data_size = item_size * item_count;
+    const char* new_items = reinterpret_cast<const char*>(items);
+    stringstream* buffer = reinterpret_cast<stringstream*>(ctx);
+    buffer->write(new_items, data_size);
+    return data_size;
+}
+
 Input download(const string& address) {
     stringstream buffer;
 
@@ -101,6 +110,8 @@ Input download(const string& address) {
     if(curl) {
         CURLcode res;
         curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
         res = curl_easy_perform(curl);
         if (res)
         {
