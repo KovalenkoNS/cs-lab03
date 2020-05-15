@@ -1,4 +1,5 @@
 #include "histogram.h"
+#include "histogram_new.h"
 #include <cassert>
 
 void test_positive()
@@ -46,6 +47,21 @@ void test_5()
     assert (max == 0);
 }
 
+void test_bin_1 ()
+{
+    size_t bin = 33;
+    bin_count(75, 100, bin);
+    assert (bin > 0);
+}
+
+void test_bin_2 ()
+{
+    size_t bin = 9;
+    bin_count(75, 100, bin);
+    assert (bin <= 100);
+}
+
+
 int main()
 {
     test_positive();
@@ -53,4 +69,6 @@ int main()
     test_3();
     test_4();
     test_5();
+    test_bin_1();
+    test_bin_2();
 }
