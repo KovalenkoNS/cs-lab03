@@ -52,7 +52,7 @@ vector <size_t> make_histogram(Input data)
     return(bins);
 }
 
-void show_histogram_text(vector<size_t>bins,size_t number_count)
+void show_histogram_text(vector<size_t>bins)
 {
     const size_t SCREEN_WIDTH = 80;
     const size_t MAX_ASTERISK = SCREEN_WIDTH - 4 - 1;
@@ -90,12 +90,21 @@ void show_histogram_text(vector<size_t>bins,size_t number_count)
         cout << '\n';
     }
 }
-int main()
+int main(int argc, char* argv[])
 {
+    if (argc>1)
+    {
+        cout << "argc=" << argc<<endl;
+        cout<<"argv[0]="<<argv[0];
+        return(0);
+    }
+    else
+    {
     curl_global_init(CURL_GLOBAL_ALL);
     const auto input = read_input(cin, true);
     const auto bins = make_histogram(input);
     show_histogram_svg(bins);
 
     return 0;
+    }
 }
