@@ -4,7 +4,7 @@
 #include "histogram_new.h"
 
 using namespace std;
-vector<double> input_numbers(istream& in ,size_t count)
+vector<double> input_numbers(istream& in,size_t count)
 {
     vector<double> result(count);
     for (size_t i = 0; i < count; i++)
@@ -13,13 +13,35 @@ vector<double> input_numbers(istream& in ,size_t count)
     }
     return result;
 }
-vector <size_t> make_histogram(vector <double> numbers,size_t bin_count,double min,double max)
+Input read_input(istream& in,bool prompt)
 {
-    vector<size_t> bins(bin_count);
-    for (double number : numbers)
+    Input data;
+    if (prompt)
+        cerr << "Enter number count: ";
+    size_t number_count;
+    cin >> number_count;
+    if (prompt)
+        cerr << "Enter numbers: ";
+    data.numbers = input_numbers(in, number_count);
+    if (prompt)
+        cerr << "Enter column count: ";
+    size_t bin_count;
+    cin>>bin_count;
+    data.bin_count = bin_count;
+
+    return data;
+}
+
+vector <size_t> make_histogram(Input data)
+{
+    double min;
+    double max;
+    find_minmax(data.numbers,min,max);
+    vector<size_t> bins(data.bin_count);
+    for (double number : data.numbers)
     {
-        size_t bin = (size_t)((number - min) / (max - min) * bin_count);
-        if (bin == bin_count)
+        size_t bin = (size_t)((number - min) / (max - min) * data.bin_count);
+        if (bin == data.bin_count)
         {
             bin--;
         }
@@ -27,6 +49,7 @@ vector <size_t> make_histogram(vector <double> numbers,size_t bin_count,double m
     }
     return(bins);
 }
+
 void show_histogram_text(vector<size_t>bins,size_t number_count)
 {
     const size_t SCREEN_WIDTH = 80;
@@ -67,20 +90,9 @@ void show_histogram_text(vector<size_t>bins,size_t number_count)
 }
 int main()
 {
-    size_t number_count;
-    cerr << "Enter number count: ";
-    cin >> number_count;
-    cerr << "Enter numbers: ";
-    const auto numbers=input_numbers(cin,number_count);
-    size_t bin_count;
-    cerr << "Enter column count: ";
-    cin >> bin_count;
-    double min;
-    double max;
-    find_minmax(numbers,min,max);
-
-    const auto bins = make_histogram(numbers, bin_count,min,max);
-    show_histogram_svg(bins,number_count);
+    const auto input = read_input(cin, true);
+    const auto bins = make_histogram(input);
+    show_histogram_svg(bins);
 
     return 0;
 }

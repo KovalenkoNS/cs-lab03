@@ -39,7 +39,7 @@ void svg_text(double left, double baseline, string text,size_t bin)
     cout << "<text x='" << left << "' y='"<<baseline<<"'>"<<bin<<"</text>";
 }
 
-void show_histogram_svg(const vector<size_t> bins,size_t number_count)
+void show_histogram_svg(const vector <size_t> bins)
 {
     const auto IMAGE_WIDTH = 400;
     const auto OTSTUP = IMAGE_WIDTH - 40;
