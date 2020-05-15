@@ -42,10 +42,11 @@ void svg_text(double left, double baseline, string text,size_t bin)
 void show_histogram_svg(const vector <size_t> bins)
 {
     const auto IMAGE_WIDTH = 400;
-    const auto OTSTUP = IMAGE_WIDTH - 40;
+    //const auto OTSTUP = IMAGE_WIDTH - 40;
     const auto IMAGE_HEIGHT = 300;
-    const auto TEXT_LEFT = 400 - 30;
+    const auto TEXT_LEFT = 20;
     const auto TEXT_BASELINE = 20;
+    const auto TEXT_WIDTH = 50;
     const auto BIN_HEIGHT = 30;
     const auto BLOCK_WIDTH = 5;
     const size_t SCREEN_WIDTH = 80;
@@ -74,9 +75,9 @@ void show_histogram_svg(const vector <size_t> bins)
 
         }
         const double bin_width = BLOCK_WIDTH * bin;
-        const double RECT_LEFT = OTSTUP - bin_width;
+        //const double RECT_LEFT = OTSTUP - bin_width;
         //svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin),bin);
-        svg_rect(RECT_LEFT, top, bin_width, BIN_HEIGHT,stroke,fill);
+        svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT,stroke,fill);
         top += BIN_HEIGHT;
         }
     svg_end();
