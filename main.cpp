@@ -3,6 +3,8 @@
 #include "histogram.h"
 #include "histogram_new.h"
 
+#include <windows.h>
+
 using namespace std;
 vector<double> input_numbers(size_t count)
 {
@@ -67,7 +69,10 @@ void show_histogram_text(vector<size_t>bins,size_t number_count)
 }
 int main()
 {
-    size_t number_count;
+    printf("Version is  %x\n", GetVersion());
+    printf("Version is  %u\n", GetVersion());
+
+    /*size_t number_count;
     cerr << "Enter number count: ";
     cin >> number_count;
     cerr << "Enter numbers: ";
@@ -80,7 +85,7 @@ int main()
     find_minmax(numbers,min,max);
 
     const auto bins = make_histogram(numbers, bin_count,min,max);
-    show_histogram_svg(bins,number_count);
+    show_histogram_svg(bins,number_count);*/
 
     return 0;
 }
