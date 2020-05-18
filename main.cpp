@@ -73,8 +73,10 @@ int main()
     printf("Version is  %u\n", GetVersion());*/
 
     DWORD info = GetVersion();
-    printf("info = %lu\n",info);
+    //printf("info = %lu\n",info);
     DWORD mask = 0x0000ffff;
+    DWORD build;
+    DWORD platform = info >> 16;
     DWORD version = info & mask;
     DWORD version_major = version & 0xff;
     DWORD version_minor = version >> 8;
@@ -85,9 +87,12 @@ int main()
 
     if ((info & 0x80000000) == 0)
     {
-    printf("minor_bit = %u",0);
+    //printf("minor_bit = %u",0);
+    build = platform;
     }
     else printf("minor_bit = %u",1);
+
+    printf("Windows v%lu.%lu (build %lu)\n",version_major,version_minor,build);
 
     /*size_t number_count;
     cerr << "Enter number count: ";
