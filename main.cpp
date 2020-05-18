@@ -73,10 +73,14 @@ int main()
     printf("Version is  %u\n", GetVersion());*/
 
     DWORD info = GetVersion();
-    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD mask = 0x0000ffff;
     DWORD version = info & mask;
-    printf("version10 = %lu\n",version);
-    printf("version16 = %08lx\n",version);
+    DWORD version_major = version & 0xff;
+    DWORD version_minor = version >> 8;
+    printf("M_version10 = %lu\n",version_major);
+    printf("M_version16 = %08lx\n",version_major);
+    printf("m_version10 = %lu\n",version_minor);
+    printf("m_version16 = %08lx\n",version_minor);
 
     /*size_t number_count;
     cerr << "Enter number count: ";
