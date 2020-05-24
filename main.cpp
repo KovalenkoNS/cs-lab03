@@ -2,7 +2,8 @@
 #include <vector>
 #include "histogram.h"
 #include "histogram_new.h"
-
+#include <string.h>
+#include <sstream>
 #include <windows.h>
 
 using namespace std;
@@ -67,23 +68,24 @@ void show_histogram_text(vector<size_t>bins,size_t number_count)
         cout << '\n';
     }
 }
-int main()
+
+string make_info_text()
 {
+    stringstream buffer;
     /*printf("Version is  %x\n", GetVersion());
     printf("Version is  %u\n", GetVersion());*/
-
-    DWORD info = GetVersion();
     //printf("info = %lu\n",info);
+    DWORD info = GetVersion();
     DWORD mask = 0x0000ffff;
     DWORD build;
     DWORD platform = info >> 16;
     DWORD version = info & mask;
     DWORD version_major = version & 0xff;
     DWORD version_minor = version >> 8;
-    printf("M_version10 = %lu\n",version_major);
+    /*printf("M_version10 = %lu\n",version_major);
     printf("M_version16 = %08lx\n",version_major);
     printf("m_version10 = %lu\n",version_minor);
-    printf("m_version16 = %08lx\n",version_minor);
+    printf("m_version16 = %08lx\n",version_minor);*/
 
     if ((info & 0x80000000) == 0)
     {
@@ -92,14 +94,19 @@ int main()
     }
     else printf("minor_bit = %u",1);
 
-    printf("Windows v%lu.%lu (build %lu)\n",version_major,version_minor,build);
+    //printf("Windows v%lu.%lu (build %lu)\n",version_major,version_minor,build);
 
     char system_name[MAX_COMPUTERNAME_LENGTH + 1];
     DWORD Size = sizeof(system_name);
     GetComputerNameA(system_name, &Size);
-    printf("System name: %s", system_name);
-
-    /*size_t number_count;
+    buffer << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << " " << "Computer name: " << system_name;
+    return buffer.str();
+}
+int main ()
+{
+    //printf("System name: %s", system_name);
+    string info = make_info_text();
+    size_t number_count;
     cerr << "Enter number count: ";
     cin >> number_count;
     cerr << "Enter numbers: ";
@@ -110,9 +117,7 @@ int main()
     double min;
     double max;
     find_minmax(numbers,min,max);
-
     const auto bins = make_histogram(numbers, bin_count,min,max);
-    show_histogram_svg(bins,number_count);*/
-
+    show_histogram_svg(bins,number_count, info);
     return 0;
 }
