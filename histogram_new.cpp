@@ -1,6 +1,7 @@
 #include "histogram_new.h"
 #include <iostream>
 #include <math.h>
+#include "system_info.h"
 using namespace std;
 
 size_t bin_count (size_t MAX_A, size_t max_c, size_t bin)
@@ -39,7 +40,7 @@ void svg_text(double left, double baseline, string text,size_t bin)
     cout << "<text x='" << left << "' y='"<<baseline<<"'>"<<bin<<"</text>";
 }
 
-void show_histogram_svg(const vector<size_t> bins,size_t number_count, string info)
+void show_histogram_svg(const vector<size_t> bins,size_t number_count)
 {
     const auto IMAGE_WIDTH = 400;
     const auto OTSTUP = IMAGE_WIDTH - 40;
@@ -79,6 +80,7 @@ void show_histogram_svg(const vector<size_t> bins,size_t number_count, string in
         svg_rect(RECT_LEFT, top, bin_width, BIN_HEIGHT,stroke,fill);
         top += BIN_HEIGHT;
         }
+    cout << "<text x='" << TEXT_LEFT << "' y='"<<top+BIN_HEIGHT<<"'>"<<make_info_text()<<"</text>";
     svg_end();
 
 }
