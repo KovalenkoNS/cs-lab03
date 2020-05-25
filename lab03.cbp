@@ -37,6 +37,8 @@
 		<Unit filename="histogram_new.cpp" />
 		<Unit filename="histogram_new.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="system_info.cpp" />
+		<Unit filename="system_info.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
