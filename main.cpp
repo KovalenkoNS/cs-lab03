@@ -2,12 +2,18 @@
 #include <vector>
 #include "histogram.h"
 #include "histogram_new.h"
+
 #include <sstream>
 #include <string>
 #include <curl/curl.h>
 
+#include <string.h>
+#include <sstream>
+#include <windows.h>
+
+
 using namespace std;
-vector<double> input_numbers(istream& in,size_t count)
+vector<double> input_numbers(istream& in, size_t count)
 {
     vector<double> result(count);
     for (size_t i = 0; i < count; i++)
@@ -126,8 +132,9 @@ Input download(const string& address) {
    return read_input(buffer, false);
 }
 
-int main(int argc, char* argv[])
+int main (int argc, char* argv[])
 {
+
     Input input;
     if (argc>1)
     {
@@ -137,9 +144,14 @@ int main(int argc, char* argv[])
     {
         input = read_input(cin, true);
     }
-    //curl_global_init(CURL_GLOBAL_ALL);
-    //const auto input = read_input(cin, true);
+
     const auto bins = make_histogram(input);
+
     show_histogram_svg(bins);
+
+    //const auto bins = make_histogram(numbers, bin_count,min,max);
+
+    //show_histogram_svg(bins,number_count);
+
     return 0;
 }

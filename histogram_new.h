@@ -2,6 +2,9 @@
 #define HISTOGRAM_NEW_H_INCLUDED
 #include <iostream>
 #include <vector>
+#include <windows.h>
+#include <string.h>
+#include <sstream>
 using namespace std;
 void show_histogram_svg(const vector<size_t> bins);
 void svg_begin(double width, double height);
