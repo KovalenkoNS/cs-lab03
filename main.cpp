@@ -11,34 +11,110 @@
 #include <sstream>
 #include <windows.h>
 
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
-vector<double> input_numbers(istream& in, size_t count)
+
+struct Options
+{
+    size_t counts;
+    bool counts_correct;
+    bool use_help;
+    char* url;
+};
+
+Options parse_args(int argc, char** argv)
+{
+    Options opt;
+    opt.url = 0;
+    opt.counts = 0;
+    opt.counts_correct = false;
+    opt.use_help = false;
+
+    for (int i = 1; i < argc; i++)
+    {
+        if (argv[i][0] == '-')
+        {
+            if (strcmp(argv[i],"-generate") == 0)
+            {
+                if(i+1<argc)
+                {
+                    opt.counts = atoi(argv[i+1]);
+                    if (opt.counts)
+                    {
+                        opt.counts_correct = true;
+                        i++;
+                    }
+                    else
+                    {
+                        opt.use_help=true;
+                    }
+                }
+
+                else
+                {
+                    opt.use_help = true;
+                }
+            }
+        }
+        else
+        {
+            opt.url = argv[i];
+        }
+    }
+    return opt;
+}
+
+
+vector<double> input_numbers(istream& in, size_t count, const Options &opt)
 {
     vector<double> result(count);
-    for (size_t i = 0; i < count; i++)
+
+    if (opt.counts_correct)
     {
-        in >> result[i];
+        srand ( time(NULL) );
+
+        result.resize(opt.counts);
+        for (size_t i = 0; i < opt.counts; i++)
+        {
+            result[i]= rand() % 10;
+        }
+
+    }
+    else
+    {
+        for (size_t i = 0; i < count; i++)
+        {
+            in >> result[i];
+        }
     }
     return result;
 }
-Input read_input(istream& in,bool prompt)
+Input read_input(istream& in,bool prompt, const Options &opt)
 {
     Input data;
     size_t number_count;
     if(prompt)
     {
     cerr << "Enter number count: ";
-    in >> number_count;
+    if ( opt.counts_correct )
+    {
+        number_count = opt.counts;
+    }
+    else
+    {
+        in >> number_count;
+    }
     cerr << "Enter numbers: ";
-    data.numbers = input_numbers(in, number_count);
+    data.numbers = input_numbers(in, number_count, opt );
     cerr << "Enter column count: ";
     in >> data.bin_count;
     }
     else
     {
         in >> number_count;
-        data.numbers = input_numbers(in, number_count);
+        data.numbers = input_numbers(in, number_count, opt );
         in >> data.bin_count;
     }
     return data;
@@ -110,7 +186,7 @@ size_t write_data(void* items, size_t item_size, size_t item_count, void* ctx)
     return data_size;
 }
 
-Input download(const string& address) {
+Input download(const string& address, const Options &opt) {
     stringstream buffer;
 
     curl_global_init(CURL_GLOBAL_ALL);
@@ -129,29 +205,34 @@ Input download(const string& address) {
         }
     }
    curl_easy_cleanup(curl);
-   return read_input(buffer, false);
+   return read_input(buffer, false, opt);
 }
 
 int main (int argc, char* argv[])
 {
 
     Input input;
-    if (argc>1)
+
+    Options opt;
+    opt = parse_args(argc,argv);
+    //cerr << "opt.counts=" << opt.counts << " opt.url = "<<opt.url<<"opt.counts.correct = " <<opt.counts_correct;
+
+    if (opt.use_help)
     {
-        input = download(argv[1]);
+        cerr<<"Error of input: use -generate "<<endl;
+        exit (2);
+    }
+    if (opt.url)
+    {
+        input = download(opt.url, opt);
     }
     else
     {
-        input = read_input(cin, true);
+        input = read_input(cin, true, opt);
     }
 
     const auto bins = make_histogram(input);
-
     show_histogram_svg(bins);
-
-    //const auto bins = make_histogram(numbers, bin_count,min,max);
-
-    //show_histogram_svg(bins,number_count);
 
     return 0;
 }
